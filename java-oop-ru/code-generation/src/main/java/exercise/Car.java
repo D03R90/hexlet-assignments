@@ -1,6 +1,5 @@
 package exercise;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Value;
 
 // BEGIN
@@ -16,7 +15,7 @@ class Car {
     // BEGIN
     public String serialize() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        String jsonRepresentation = objectMapper.ObjectMapper(this);
+        String jsonRepresentation = objectMapper.writeValueAsString(this);
         return jsonRepresentation;
     }
 
