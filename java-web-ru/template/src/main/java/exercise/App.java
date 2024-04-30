@@ -38,7 +38,7 @@ public final class App {
                 UserPage userPage = new UserPage(user);
                 ctx.render("users/show.jte", model("userPage", userPage));
             } else {
-                throw new NotFoundResponse("User not found");
+                ctx.status(404).result("User not found");
             }
         });
         // END
