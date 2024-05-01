@@ -22,24 +22,25 @@ public final class App {
         });
 
         // BEGIN
-        app.get("/users", ctx -> {
-            UsersPage usersPage = new UsersPage(USERS);
-            ctx.render("users/index.jte", model("usersPage", usersPage));
-        });
-
-        app.get("/users/:id", ctx -> {
-            String userId = ctx.pathParam("id");
+        app.get("/users/{id}", ctx -> {
+            var id = ctx.pathParamAsClass("id", Long.class).get();
             User user = USERS.stream()
-                    .filter(u -> u.getId().equals(userId))
+                    .filter(u -> id.equals(u.getId()))
                     .findFirst()
                     .orElse(null);
 
-            if (user != null) {
-                UserPage userPage = new UserPage(user);
-                ctx.render("users/show.jte", model("userPage", userPage));
-            } else {
-                ctx.status(404).result("User not found");
+            if (user == null) {
+                throw new NotFoundResponse("User not found");
             }
+
+            var page = new UserPage(user);
+            ctx.render("users/show.jte", model("page", page));
+        });
+
+        app.get("/users", ctx -> {
+            var page = new UsersPage(USERS);
+            ctx.render("users/index.jte", model("page", page));
+
         });
         // END
 
