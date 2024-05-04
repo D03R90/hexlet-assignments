@@ -11,15 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "HelloServlet", urlPatterns = "/hello")
 public class HelloServlet extends HttpServlet {
     // BEGIN
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        @Override
+        protected void doGet(HttpServletRequest request,
+                HttpServletResponse response) throws ServletException, IOException {
+            var parameter = request.getParameter("name");
+            var name = parameter == null ? "Guest" : parameter;
+            var message = "Hello, " + name + "!";
+            request.setAttribute("message", message);
 
-        String name = request.getParameter("name");
-        if (name == null || name.isEmpty()) {
-            name = "Guest";
+            request.getRequestDispatcher("/WEB-INF/hello.jsp").forward(request, response);
         }
-
-        response.getWriter().println("Hello, " + name + "!");
     // END
 }
