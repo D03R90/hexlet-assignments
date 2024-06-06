@@ -47,5 +47,6 @@ public class User {
     // BEGIN
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
+
     // END
 }
